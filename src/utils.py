@@ -39,12 +39,12 @@ def label_formatting(map_data, sample_ids, label_field, signed=False):
   labels_numeric = np.array(labels_numeric)
   return labels_numeric, label_map 
 
-def normalize(data, scale):
+def normalize(data, scale=None):
   """
   to be filled in later
   """
   if scale == "log":
-    data = numpy.ceil(data/np.min(data))
+    data = numpy.ceil(np.log(data/np.min(data)))
   else:
     data = numpy.ceil(data/np.min(data))
   return None
