@@ -44,10 +44,10 @@ def normalize(data, scale=None):
   to be filled in later
   """
   if scale == "log":
-    data = numpy.ceil(np.log(data/np.min(data)))
+    data = np.ceil(np.log(data/np.min(data)))
   else:
-    data = numpy.ceil(data/np.min(data))
-  return None
+    data = np.ceil(data/np.min(data))
+  return data 
 
 
 def count2abun(count_matrix):
@@ -55,7 +55,7 @@ def count2abun(count_matrix):
   Convert X into a relative abundance matrix
   """
   scale_factor = count_matrix.sum(axis=1)
-  return count_matrix/numpy.tile(scale_factor,
+  return count_matrix/np.tile(scale_factor,
       [count_matrix.shape[1],1]).transpose()
 
 
