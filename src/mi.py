@@ -48,16 +48,16 @@ def calc_mi(data, labels):
 def p_calc_cmi(d_in):
   """
   """
-  i,j = d_in
-  #c_n_observations = c.c_int(len(gdata))
-  #libMIToolbox.calculateMutualInformation.restype = c.c_double
-  #result = libMIToolbox.calculateConditionalMutualInformation(
-  #      gdata[:,i].ctypes.data_as(c.POINTER(c.c_double)),
-  #      gdata[:,j].ctypes.data_as(c.POINTER(c.c_double)),
-  #      glabels.ctypes.data_as(c.POINTER(c.c_double)),
-  #      c_n_observations)
-  #return (i,j,result.real)
-  return (i,j,len(gdata))
+  gdata,glabels,i,j = d_in
+  c_n_observations = c.c_int(len(gdata))
+  libMIToolbox.calculateMutualInformation.restype = c.c_double
+  result = libMIToolbox.calculateConditionalMutualInformation(
+      gdata[:,i].ctypes.data_as(c.POINTER(c.c_double)),
+      gdata[:,j].ctypes.data_as(c.POINTER(c.c_double)),
+      glabels.ctypes.data_as(c.POINTER(c.c_double)),
+      c_n_observations)
+  return (i,j,result.real)
+  #return (i,j,glabels)
 
 def calc_cmi(X, Y, Z):
   """
@@ -100,15 +100,35 @@ def mi_matrix(data):
     mi_mat[j,i] = val
   return mi_mat
 
-def cmi_matrix(data, labels):
+def cmi_matrix(data, labels, par=False, cpus=2):
   n_features = len(data[0])
-
+  print "Hello CMI"
   cmi_mat = np.zeros((n_features,n_features))
-  for i,j in i,j in itertools.combinations_with_replacement(range(n_features),2):
-    print i
-    val = calc_cmi(data[:,i], data[:,j], labels)
-    cmi_mat[i,j], cmi_mat[j,i] = val, val
+
+  if par == False:
+    for i,j in itertools.combinations_with_replacement(range(n_features),2):
+      val = calc_cmi(data[:,i], data[:,j], labels)
+      cmi_mat[i,j], cmi_mat[j,i] = val, val
+  else:
+    print "Using Parallel"
+    p = Pool(cpus)
+    global gdata
+    global glabels
+    gdata = data
+    glabels = labels
+    
+    res = p.map(p_calc_cmi, 
+        [(data,labels,i,j) for i,j in itertools.combinations_with_replacement(range(n_features),2)])#,
+        #chunksize=1024)
+    p.start()
+    p.join()
+    for r in res:
+      print r
+    cmi_mat = res
   return cmi_mat
+
+def q():
+  print gdata 
 
 def mim(data, labels, n_select):
   """
