@@ -55,6 +55,14 @@ def calc_cmi(X, Y, Z):
         c_n_observations)
   return result.real
 
+def cmi_matrix(data, labels):
+  n_features = len(data[0])
+  cmi_mat = np.zeros((n_features,n_features))
+  for i in range(n_features):
+    for j in range(n_features):
+      cmi_mat[i,j] = calc_cmi(data[:,i], data[:,j], labels)
+  return cmi_mat
+
 def mim(data, labels, n_select):
   """
   Mutual Information Maximization (MIM)
