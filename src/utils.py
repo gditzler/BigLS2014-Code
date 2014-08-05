@@ -39,3 +39,23 @@ def label_formatting(map_data, sample_ids, label_field, signed=False):
   labels_numeric = np.array(labels_numeric)
   return labels_numeric, label_map 
 
+def normalize(data, scale):
+  """
+  to be filled in later
+  """
+  if scale == "log":
+    data = numpy.ceil(data/np.min(data))
+  else:
+    data = numpy.ceil(data/np.min(data))
+  return None
+
+
+def count2abun(count_matrix):
+  """
+  Convert X into a relative abundance matrix
+  """
+  scale_factor = count_matrix.sum(axis=1)
+  return count_matrix/numpy.tile(scale_factor,
+      [count_matrix.shape[1],1]).transpose()
+
+
