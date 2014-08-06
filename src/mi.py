@@ -44,17 +44,38 @@ def calc_mi(data, labels):
 
 
 
+def p_calc_mi(d_in):
+  """
+  Calculate the Mutual Information 
+  @data
+  @labels
+
+  @mutual_information
+  """
+  data, i, j = d_in 
+  f0 = data[:,i]
+  f1 = data[:,j]
+  c_n_observations = c.c_int(len(f0))
+
+  libMIToolbox.calculateMutualInformation.restype = c.c_double 
+  result = libMIToolbox.calculateMutualInformation(
+      f0.ctypes.data_as(c.POINTER(c.c_double)),
+      f1.ctypes.data_as(c.POINTER(c.c_double)),
+      c_n_observations)
+  return (i,j,result.real)
+
+
 
 def p_calc_cmi(d_in):
   """
   """
-  gdata,glabels,i,j = d_in
-  c_n_observations = c.c_int(len(gdata))
+  data,labels,i,j = d_in
+  c_n_observations = c.c_int(len(data))
   libMIToolbox.calculateMutualInformation.restype = c.c_double
   result = libMIToolbox.calculateConditionalMutualInformation(
-      gdata[:,i].ctypes.data_as(c.POINTER(c.c_double)),
-      gdata[:,j].ctypes.data_as(c.POINTER(c.c_double)),
-      glabels.ctypes.data_as(c.POINTER(c.c_double)),
+      data[:,i].ctypes.data_as(c.POINTER(c.c_double)),
+      data[:,j].ctypes.data_as(c.POINTER(c.c_double)),
+      labels.ctypes.data_as(c.POINTER(c.c_double)),
       c_n_observations)
   return (i,j,result.real)
   #return (i,j,glabels)
@@ -91,18 +112,32 @@ def calc_mi_features(feat0, feat1):
   return result.real
 
 
-def mi_matrix(data):
+def mi_matrix(data, par=False, cpus=2):
   n_features = len(data[0])
   mi_mat = np.zeros((n_features,n_features))
   for i,j in itertools.combinations_with_replacement(range(n_features),2):
     val = calc_mi_features(data[:,i], data[:,j])
     mi_mat[i,j] = val
     mi_mat[j,i] = val
+  
+  if par == False:
+    for i,j in itertools.combinations_with_replacement(range(n_features),2):
+      val = calc_mi_features(data[:,i], data[:,j])
+      mi_mat[i,j], mi_mat[j,i] = val, val
+  else:
+    p = Pool(cpus)
+    global gdata
+    gdata = data
+    
+    res = p.map(p_calc_mi, 
+        [(data,i,j) for i,j in itertools.combinations_with_replacement(range(n_features),2)])
+    for r in res:
+      i,j,val = r
+      mi_mat[i,j], mi_mat[j,i] = val, val
   return mi_mat
 
 def cmi_matrix(data, labels, par=False, cpus=2):
   n_features = len(data[0])
-  print "Hello CMI"
   cmi_mat = np.zeros((n_features,n_features))
 
   if par == False:
@@ -110,7 +145,6 @@ def cmi_matrix(data, labels, par=False, cpus=2):
       val = calc_cmi(data[:,i], data[:,j], labels)
       cmi_mat[i,j], cmi_mat[j,i] = val, val
   else:
-    print "Using Parallel"
     p = Pool(cpus)
     global gdata
     global glabels
@@ -118,13 +152,10 @@ def cmi_matrix(data, labels, par=False, cpus=2):
     glabels = labels
     
     res = p.map(p_calc_cmi, 
-        [(data,labels,i,j) for i,j in itertools.combinations_with_replacement(range(n_features),2)])#,
-        #chunksize=1024)
-    p.start()
-    p.join()
+        [(data,labels,i,j) for i,j in itertools.combinations_with_replacement(range(n_features),2)])
     for r in res:
-      print r
-    cmi_mat = res
+      i,j,val = r
+      cmi_mat[i,j], cmi_mat[j,i] = val, val
   return cmi_mat
 
 def q():
