@@ -2,4 +2,11 @@
 *.swp
 *.pyc
 *.*~
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.syntax.gz
+
 
