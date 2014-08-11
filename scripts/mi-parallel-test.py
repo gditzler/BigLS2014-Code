@@ -28,11 +28,6 @@ mutual_info = mi.calc_mi(data=data, labels=labels)
 si = np.array(sorted(range(len(mutual_info)), 
   key=lambda k: mutual_info[k])[::-1][:1000])
 
-print "Running CMI"
-cmi_mat = mi.cmi_matrix(data[:,si], labels, par=True, cpus=10)
-output = {"cmi_mat":cmi_mat, "si":si, "mutual_info":mutual_info}
-pickle.dump(output, open( "../files/cmi-mat.pkl", "wb" ) )
-
 print "Running MI"
 mi_mat = mi.mi_matrix(data[:,si], par=True, cpus=10)
 output = {"mi_mat":mi_mat, "si":si, "mutual_info":mutual_info}
