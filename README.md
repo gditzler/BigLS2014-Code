@@ -16,5 +16,5 @@ The code in this repository is licensed under the [GNU GPL v3](http://www.gnu.or
 
 If you the scripts scripts in this work, and you plan to publish a manuscript based on these codes, please add the following citation: 
 
-* [Gregory Ditzler](gregoryditzler.com) and [Gail Rosen](http://www.ece.drexel.edu/gailr/index.html), ``Feature Subset Selection for Inferring Relative Importance of Taxonomy,'' to appear *ACM International Workshop on Big Data in Life Sciences*, 2014.
+* [Gregory Ditzler](http://gregoryditzler.com) and [Gail Rosen](http://www.ece.drexel.edu/gailr/index.html), ``Feature Subset Selection for Inferring Relative Importance of Taxonomy,'' to appear *ACM International Workshop on Big Data in Life Sciences*, 2014.
 
