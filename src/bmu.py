@@ -5,14 +5,12 @@ import scipy.sparse as sp
 from optparse import OptionParser
 
 __author__ = "Gregory Ditzler"
-__copyright__ = "Copyright 2013, EESI Laboratory (Drexel University)"
+__copyright__ = "Copyright 2014, EESI Laboratory (Drexel University)"
 __credits__ = ["Gregory Ditzler"]
 __license__ = "GPL"
-__version__ = "0.3.0"
+__version__ = "0.1.0"
 __maintainer__ = "Gregory Ditzler"
 __email__ = "gregory.ditzler@gmail.com"
-__status__ = "development"
-__about__ = "Parse biom and map files without QIIME or BIOM-format"
 
 def load_biom(fname):
   """

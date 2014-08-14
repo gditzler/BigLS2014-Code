@@ -7,12 +7,13 @@ from multiprocessing import Pool
 gdata = None
 glabels = None 
 
-__authors__ = "Gregory Ditzler" 
+__author__ = "Gregory Ditzler"
 __copyright__ = "Copyright 2014, EESI Laboratory (Drexel University)"
+__credits__ = ["Gregory Ditzler"]
 __license__ = "GPL"
+__version__ = "0.1.0"
 __maintainer__ = "Gregory Ditzler"
 __email__ = "gregory.ditzler@gmail.com"
-
 
 try:
   libMIToolbox = c.CDLL("libMIToolbox.so"); 

@@ -1,5 +1,13 @@
 #!/usr/bin/env bash 
 
+# __author__ = "Gregory Ditzler"
+# __copyright__ = "Copyright 2014, EESI Laboratory (Drexel University)"
+# __credits__ = ["Gregory Ditzler"]
+# __license__ = "GPL"
+# __version__ = "0.1.0"
+# __maintainer__ = "Gregory Ditzler"
+# __email__ = "gregory.ditzler@gmail.com"
+
 ft=caporaso-gut
 #ft=american-gut-mf
 map=../data/$ft.txt

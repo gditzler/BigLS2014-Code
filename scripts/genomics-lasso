@@ -8,10 +8,17 @@ import bmu
 from sklearn.linear_model import Lasso
 import re 
 
+__author__ = "Gregory Ditzler"
+__copyright__ = "Copyright 2014, EESI Laboratory (Drexel University)"
+__credits__ = ["Gregory Ditzler"]
+__license__ = "GPL"
+__version__ = "0.1.0"
+__maintainer__ = "Gregory Ditzler"
+__email__ = "gregory.ditzler@gmail.com"
+
 reg_par = 1.
 
 def run_lasso(args):
-
   data, samples, features = bmu.load_biom(args.input_file)
   map_data = bmu.load_map(args.map_file)
   labels, label_map = utils.label_formatting(map_data, samples, args.label, signed=True)

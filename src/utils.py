@@ -1,9 +1,11 @@
 #!/usr/bin/env python 
 import numpy as np 
 
-__authors__ = "Gregory Ditzler" 
+__author__ = "Gregory Ditzler"
 __copyright__ = "Copyright 2014, EESI Laboratory (Drexel University)"
+__credits__ = ["Gregory Ditzler"]
 __license__ = "GPL"
+__version__ = "0.1.0"
 __maintainer__ = "Gregory Ditzler"
 __email__ = "gregory.ditzler@gmail.com"
 
@@ -41,7 +43,7 @@ def label_formatting(map_data, sample_ids, label_field, signed=False):
 
 def normalize(data, scale=None):
   """
-  to be filled in later
+  normalize the abundance vectors 
   """
   if scale == "log":
     data = np.ceil(np.log(data/np.min(data)))
