@@ -25,7 +25,7 @@ def run_lasso(args):
   samples = np.array(samples)
   features = np.array(features)
 
-  mdl = Lasso(alpha=reg_par, fit_intercept=True, normalize=False, precompute='auto', 
+  mdl = Lasso(alpha=reg_par, fit_intercept=True, normalize=True, precompute='auto', 
               copy_X=False, max_iter=5000, tol=0.0001, warm_start=False, positive=False)
   mdl.fit(X=data, y=labels)
   
