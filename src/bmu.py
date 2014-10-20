@@ -53,7 +53,7 @@ def load_dense(obj):
   :data - dense data matrix
   """
   n_feat,n_sample = obj["shape"]
-  data = np.array(obj["data"])
+  data = np.array(obj["data"], order="F")
   return data.transpose()
 
 def load_sparse(obj):
@@ -63,7 +63,7 @@ def load_sparse(obj):
   :data - dense data matrix
   """
   n_feat,n_sample = obj["shape"] 
-  data = numpy.zeros((n_feat, n_sample))
+  data = numpy.zeros((n_feat, n_sample),order="F")
   for val in obj["data"]:
     data[val[0], val[1]] = val[2]
   data = data.transpose() 

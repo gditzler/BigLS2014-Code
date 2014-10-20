@@ -38,13 +38,14 @@ def label_formatting(map_data, sample_ids, label_field, signed=False):
   labels_numeric = []
   for sid in sample_ids:
     labels_numeric.append( label_map[map_data[sid][label_field]] )
-  labels_numeric = np.array(labels_numeric)
+  labels_numeric = np.array(labels_numeric, order="F")
   return labels_numeric, label_map 
 
 def normalize(data, scale=None):
   """
   normalize the abundance vectors 
   """
+  data = count2abun(data):
   if scale == "log":
     data = np.ceil(np.log(data/np.min(data)))
   else:
@@ -57,7 +58,6 @@ def count2abun(count_matrix):
   Convert X into a relative abundance matrix
   """
   scale_factor = count_matrix.sum(axis=1)
-  return count_matrix/np.tile(scale_factor,
-      [count_matrix.shape[1],1]).transpose()
+  return count_matrix/np.tile(scale_factor, [count_matrix.shape[1],1]).transpose()
 
 
